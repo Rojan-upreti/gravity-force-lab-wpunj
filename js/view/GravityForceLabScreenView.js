@@ -24,6 +24,7 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import ResetAllButton from '../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import Node from '../../../scenery/js/nodes/Node.js';
+import Image from '../../../scenery/js/nodes/Image.js';
 import ContinuousPropertySoundClip from '../../../tambo/js/sound-generators/ContinuousPropertySoundClip.js';
 import SoundLevelEnum from '../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../tambo/js/soundManager.js';
@@ -203,6 +204,25 @@ class GravityForceLabScreenView extends ScreenView {
     massControl2.right = parameterControlPanel.left - 35;
     massControl1.right = massControl2.left - 35;
 
+    // WP logo in bottom left, positioned just above the footer bar so it stays visible in fullscreen
+    // Path is relative to HTML file location when served via dev server
+    // When HTML is at gravity-force-lab/gravity-force-lab_en.html, assets is at gravity-force-lab/assets/
+    // Wrap in try-catch to prevent errors from blocking the simulation
+    let wpLogo;
+    try {
+      wpLogo = new Image( 'assets/wp-logo.png', {
+        scale: 0.4, // Adjust scale as needed
+        left: this.layoutBounds.left + 10,
+        // Nudge upward from the very bottom so it doesn't sit under the title text/footer in fullscreen
+        bottom: this.layoutBounds.bottom - 40,
+        pickable: false // Make it non-interactive
+      } );
+    } catch ( e ) {
+      // If logo fails to load, create an empty node instead
+      wpLogo = new Node();
+      console.warn( 'WP logo could not be loaded:', e );
+    }
+
     // create down here because it needs positions of other items in the screen view
     const rulerRegionPositions = [
       mass2Node.top,
@@ -255,6 +275,7 @@ class GravityForceLabScreenView extends ScreenView {
       massControlsNode,
       parameterControlPanel,
       resetAllButton,
+      wpLogo,
       interactionCueParent
     ];
 
