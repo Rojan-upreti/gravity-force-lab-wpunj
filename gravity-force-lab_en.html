@@ -88,7 +88,7 @@
 
   // Identify the brand (assume generated brand if not provided with query parameters)
   const brandMatch = location.search.match( /brand=([^&]+)/ );
-  const brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
+  const brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'phet';
 
   // Preloads, with more included for phet-io brand
   let preloads = [
